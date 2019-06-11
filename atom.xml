@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>BOLG_ZJK</title>
+  
+  <subtitle>zhijunkang</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://www.zhijunkang.com/"/>
+  <updated>2019-06-11T15:17:19.369Z</updated>
+  <id>https://www.zhijunkang.com/</id>
+  
+  <author>
+    <name>zhijunKang</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Lambda表达式总结</title>
+    <link href="https://www.zhijunkang.com/2019/06/11/lambda-biao-da-shi-zong-jie/"/>
+    <id>https://www.zhijunkang.com/2019/06/11/lambda-biao-da-shi-zong-jie/</id>
+    <published>2019-06-11T14:46:54.000Z</published>
+    <updated>2019-06-11T15:17:19.369Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;﻿# Lambda表达式总结&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;一、使用范例以及例子&quot;&gt;&lt;a href=&quot;#一、使用范例以及例子&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Java8" scheme="https://www.zhijunkang.com/categories/Java8/"/>
+    
+    
+      <category term="Java" scheme="https://www.zhijunkang.com/tags/Java/"/>
+    
+      <category term="Lambda" scheme="https://www.zhijunkang.com/tags/Lambda/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设计模式-单例模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/11/dan-li-mo-shi-yi/"/>
+    <id>https://www.zhijunkang.com/2019/06/11/dan-li-mo-shi-yi/</id>
+    <published>2019-06-11T01:25:00.000Z</published>
+    <updated>2019-06-11T15:18:52.631Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;单例模式&quot;&gt;&lt;a href=&quot;#单例模式&quot; class=&quot;headerlink&quot; title=&quot;单例模式&quot;&gt;&lt;/a&gt;单例模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="单例模式" scheme="https://www.zhijunkang.com/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Front-matter 选项详解</title>
+    <link href="https://www.zhijunkang.com/2019/06/05/front-matter-jie-shao/"/>
+    <id>https://www.zhijunkang.com/2019/06/05/front-matter-jie-shao/</id>
+    <published>2019-06-05T13:45:03.000Z</published>
+    <updated>2019-06-11T14:14:55.098Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;文章-Front-matter-介绍&quot;&gt;&lt;a href=&quot;#文章-Front-matter-介绍&quot; class=&quot;headerlink&quot; title=&quot;文章 Front-matter 介绍&quot;&gt;&lt;/a&gt;文章 Front-matter 介绍&lt;/h2&gt;&lt;h3
+        
+      
+    
+    </summary>
+    
+      <category term="Markdown" scheme="https://www.zhijunkang.com/categories/Markdown/"/>
+    
+    
+      <category term="Typora" scheme="https://www.zhijunkang.com/tags/Typora/"/>
+    
+      <category term="Markdown" scheme="https://www.zhijunkang.com/tags/Markdown/"/>
+    
+  </entry>
+  
+</feed>
