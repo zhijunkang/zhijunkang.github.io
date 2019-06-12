@@ -72,11 +72,11 @@ collect方法的三参数形式 DoubleSummaryStatistics的实例 Team ave: = ￥
 doubleSummarystatistics =
         Arrays.asList(team,team1,team2,team3,team4,team5).stream().collect(Collectors.summarizingDouble(Team::getSalary));
 System.out.println(doubleSummarystatistics);
-System.out.println("游收集器 Collectors.summarizingDouble Team count: = ￥ "+doubleSummarystatistics.getCount());
-System.out.println("游收集器 Collectors.summarizingDouble Team min: = ￥"+doubleSummarystatistics.getMin());
-System.out.println("游收集器 Collectors.summarizingDouble Team max: = ￥"+doubleSummarystatistics.getMax());
-System.out.println("游收集器 Collectors.summarizingDouble Team sum: = ￥"+doubleSummarystatistics.getSum());
-System.out.println("游收集器 Collectors.summarizingDouble Team ave: = ￥"+doubleSummarystatistics.getAverage());
+System.out.println("下游收集器 Collectors.summarizingDouble Team count: = ￥ "+doubleSummarystatistics.getCount());
+System.out.println("下游收集器 Collectors.summarizingDouble Team min: = ￥"+doubleSummarystatistics.getMin());
+System.out.println("下游收集器 Collectors.summarizingDouble Team max: = ￥"+doubleSummarystatistics.getMax());
+System.out.println("下游收集器 Collectors.summarizingDouble Team sum: = ￥"+doubleSummarystatistics.getSum());
+System.out.println("下游收集器 Collectors.summarizingDouble Team ave: = ￥"+doubleSummarystatistics.getAverage());
 ```
 
 ##### 输出结果：
