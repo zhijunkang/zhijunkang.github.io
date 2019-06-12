@@ -38,6 +38,32 @@ ave: 0.5002923138742162
 ### 一、采用collect方法的三参数形式
 
 ```java
+		@Getter
+    @Setter
+    @AllArgsConstructor
+public static class Team {
+        private  final NumberFormat nf = NumberFormat.getCurrencyInstance();
+        private int id;
+        private String name;
+        private double salary;
+        @Override
+        public String toString(){
+            return "Team {" +
+                    "id = " + id +
+                    ", name = " + name + "\'" +
+                    ", salary = " +nf.format(salary) + '}';
+        }
+    }
+
+			  Team team = new Team(1,"kang1", 245269535.00);
+        Team team1 = new Team(2,"kang2", 202135939.00);
+        Team team2 = new Team(3,"kang3", 202095552.00);
+
+        Team team3 = new Team(28,"kang4", 73754027.00);
+        Team team4 = new Team(29,"kang5", 73102766.00);
+        Team team5 = new Team(30,"kang6", 62094433.00);
+
+
 doubleSummarystatistics =
         Arrays.asList(team,team1,team2,team3,team4,team5).stream().peek(System.out::println
 ).mapToDouble(Team::getSalary).collect(DoubleSummaryStatistics::new, DoubleSummaryStatistics::accept, DoubleSummaryStatistics::combine);
