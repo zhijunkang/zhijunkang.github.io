@@ -24,7 +24,7 @@ System.out.println("sum: "+doubleSummarystatistics.getSum());
 System.out.println("ave: "+doubleSummarystatistics.getAverage());
 ```
 
-#### 输出结果：
+##### 输出结果：
 
 ```java
 DoubleSummaryStatistics{count=1000000, sum=500292.313874, min=0.000000, average=0.500292, max=1.000000}
