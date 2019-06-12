@@ -38,7 +38,7 @@ ave: 0.5002923138742162
 ### 一、采用collect方法的三参数形式
 
 ```java
-		@Getter
+    @Getter
     @Setter
     @AllArgsConstructor
 public static class Team {
@@ -55,7 +55,7 @@ public static class Team {
         }
     }
 
-			  Team team = new Team(1,"kang1", 245269535.00);
+        Team team = new Team(1,"kang1", 245269535.00);
         Team team1 = new Team(2,"kang2", 202135939.00);
         Team team2 = new Team(3,"kang3", 202095552.00);
 
