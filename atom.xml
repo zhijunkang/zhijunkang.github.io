@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.zhijunkang.com/"/>
-  <updated>2019-06-16T13:25:53.697Z</updated>
+  <updated>2019-06-16T14:04:55.414Z</updated>
   <id>https://www.zhijunkang.com/</id>
   
   <author>
@@ -15,6 +15,319 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>命令模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/18-ming-ling-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/18-ming-ling-mo-shi/</id>
+    <published>2019-06-16T13:47:30.000Z</published>
+    <updated>2019-06-16T14:04:55.414Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;命令模式&quot;&gt;&lt;a href=&quot;#命令模式&quot; class=&quot;headerlink&quot; title=&quot;命令模式&quot;&gt;&lt;/a&gt;命令模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="命令模式" scheme="https://www.zhijunkang.com/tags/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>责任链模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/16-ze-ren-lian-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/16-ze-ren-lian-mo-shi/</id>
+    <published>2019-06-16T13:47:13.000Z</published>
+    <updated>2019-06-16T14:04:33.402Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;责任链模式&quot;&gt;&lt;a href=&quot;#责任链模式&quot; class=&quot;headerlink&quot; title=&quot;责任链模式&quot;&gt;&lt;/a&gt;责任链模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="责任链模式" scheme="https://www.zhijunkang.com/tags/%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>桥接模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/13-qiao-jie-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/13-qiao-jie-mo-shi/</id>
+    <published>2019-06-16T13:46:32.000Z</published>
+    <updated>2019-06-16T14:03:55.231Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;桥接模式&quot;&gt;&lt;a href=&quot;#桥接模式&quot; class=&quot;headerlink&quot; title=&quot;桥接模式&quot;&gt;&lt;/a&gt;桥接模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="桥接模式" scheme="https://www.zhijunkang.com/tags/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代理模式(二)</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/12-dai-li-mo-shi-er/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/12-dai-li-mo-shi-er/</id>
+    <published>2019-06-16T13:46:19.000Z</published>
+    <updated>2019-06-16T14:03:01.566Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;代理模式-二&quot;&gt;&lt;a href=&quot;#代理模式-二&quot; class=&quot;headerlink&quot; title=&quot;代理模式(二)&quot;&gt;&lt;/a&gt;代理模式(二)&lt;/h1&gt;&lt;h2 id=&quot;一、目的&quot;&gt;&lt;a href=&quot;#一、目的&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="代理模式" scheme="https://www.zhijunkang.com/tags/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代理模式(一)</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/11-dai-li-mo-shi-yi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/11-dai-li-mo-shi-yi/</id>
+    <published>2019-06-16T13:46:11.000Z</published>
+    <updated>2019-06-16T14:02:04.464Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;代理模式-一&quot;&gt;&lt;a href=&quot;#代理模式-一&quot; class=&quot;headerlink&quot; title=&quot;代理模式(一)&quot;&gt;&lt;/a&gt;代理模式(一)&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="代理模式" scheme="https://www.zhijunkang.com/tags/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>迭代器模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/10-die-dai-qi-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/10-die-dai-qi-mo-shi/</id>
+    <published>2019-06-16T13:45:43.000Z</published>
+    <updated>2019-06-16T14:01:01.972Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;迭代器模式&quot;&gt;&lt;a href=&quot;#迭代器模式&quot; class=&quot;headerlink&quot; title=&quot;迭代器模式&quot;&gt;&lt;/a&gt;迭代器模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="迭代器模式" scheme="https://www.zhijunkang.com/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>模板方法模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/09-mo-ban-fang-fa-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/09-mo-ban-fang-fa-mo-shi/</id>
+    <published>2019-06-16T13:45:31.000Z</published>
+    <updated>2019-06-16T14:00:43.418Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;模板方法设计模式&quot;&gt;&lt;a href=&quot;#模板方法设计模式&quot; class=&quot;headerlink&quot; title=&quot;模板方法设计模式&quot;&gt;&lt;/a&gt;模板方法设计模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="模板方法模式" scheme="https://www.zhijunkang.com/tags/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>适配器模式(二)</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/08-gua-pei-qi-mo-shi-er/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/08-gua-pei-qi-mo-shi-er/</id>
+    <published>2019-06-16T13:45:10.000Z</published>
+    <updated>2019-06-16T13:59:37.651Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;适配器模式-二&quot;&gt;&lt;a href=&quot;#适配器模式-二&quot; class=&quot;headerlink&quot; title=&quot;适配器模式(二)&quot;&gt;&lt;/a&gt;适配器模式(二)&lt;/h1&gt;&lt;h2 id=&quot;一、基本介绍&quot;&gt;&lt;a href=&quot;#一、基本介绍&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="适配器模式" scheme="https://www.zhijunkang.com/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>适配器模式(一)</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/07-gua-pei-qi-mo-shi-yi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/07-gua-pei-qi-mo-shi-yi/</id>
+    <published>2019-06-16T13:33:14.000Z</published>
+    <updated>2019-06-16T13:42:26.312Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;适配器模式-一&quot;&gt;&lt;a href=&quot;#适配器模式-一&quot; class=&quot;headerlink&quot; title=&quot;适配器模式(一)&quot;&gt;&lt;/a&gt;适配器模式(一)&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="适配器模式" scheme="https://www.zhijunkang.com/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>抽象工厂模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/06-chou-xiang-gong-han-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/06-chou-xiang-gong-han-mo-shi/</id>
+    <published>2019-06-16T13:31:36.000Z</published>
+    <updated>2019-06-16T13:43:40.980Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;抽象工厂模式&quot;&gt;&lt;a href=&quot;#抽象工厂模式&quot; class=&quot;headerlink&quot; title=&quot;抽象工厂模式&quot;&gt;&lt;/a&gt;抽象工厂模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="抽象工厂模式" scheme="https://www.zhijunkang.com/tags/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>工厂方法模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/05-gong-han-fang-fa-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/05-gong-han-fang-fa-mo-shi/</id>
+    <published>2019-06-16T13:31:19.000Z</published>
+    <updated>2019-06-16T13:43:45.270Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;工厂方法模式&quot;&gt;&lt;a href=&quot;#工厂方法模式&quot; class=&quot;headerlink&quot; title=&quot;工厂方法模式&quot;&gt;&lt;/a&gt;工厂方法模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="工厂方法模式" scheme="https://www.zhijunkang.com/tags/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>简单工厂模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/04-jian-dan-gong-han-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/04-jian-dan-gong-han-mo-shi/</id>
+    <published>2019-06-16T13:30:44.000Z</published>
+    <updated>2019-06-16T13:43:51.258Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;简单工厂模式&quot;&gt;&lt;a href=&quot;#简单工厂模式&quot; class=&quot;headerlink&quot; title=&quot;简单工厂模式&quot;&gt;&lt;/a&gt;简单工厂模式&lt;/h1&gt;&lt;p&gt;)&lt;/p&gt;
+&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="简单工厂模式" scheme="https://www.zhijunkang.com/tags/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>装饰者模式</title>
@@ -182,8 +495,8 @@
   
   <entry>
     <title>设计模式-单例模式</title>
-    <link href="https://www.zhijunkang.com/2019/06/11/dan-li-mo-shi-yi/"/>
-    <id>https://www.zhijunkang.com/2019/06/11/dan-li-mo-shi-yi/</id>
+    <link href="https://www.zhijunkang.com/2019/06/11/14-dan-li-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/11/14-dan-li-mo-shi/</id>
     <published>2019-06-11T01:25:00.000Z</published>
     <updated>2019-06-11T15:18:52.631Z</updated>
     

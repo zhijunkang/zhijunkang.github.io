@@ -1,0 +1,1129 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="代理模式(二), BOLG_ZJK">
+    <meta name="description" content="代理模式(二)一、目的在代理模式(一)里面我们了解了静态代理、动态代理、CGLIB代理的基本使用。
+这篇主要来将JDK动态代理底层的原理，以及有关$Proxy0、InvocationHandler相关的原理。
+二、模拟Java底层动态代理实">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>代理模式(二) | BOLG_ZJK</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">BOLG_ZJK</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="搜索"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">BOLG_ZJK</div>
+        <div class="logo-desc">
+            
+            不积跬步无以至千里
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/zhijunkang" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="zhijunkang" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:zhijunkangv@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=395090459@qq.com" class="tooltipped" data-tooltip="QQ联系我: 395090459@qq.com" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=kang_zhi_jun" class="tooltipped" data-tooltip="wechat联系我: kang_zhi_jun" data-position="top" data-delay="50">
+        <i class="fa fa-wechat"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/zhijunkang" class="github-corner tooltipped hide-on-med-and-down" target="_blank" data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewbox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        代理模式(二)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/代理模式/" target="_blank">
+                                <span class="chip bg-color">代理模式</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/设计模式/" class="post-category" target="_blank">
+                                设计模式
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-06-16
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        2.1k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        9 分
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="代理模式-二"><a href="#代理模式-二" class="headerlink" title="代理模式(二)"></a>代理模式(二)</h1><h2 id="一、目的"><a href="#一、目的" class="headerlink" title="一、目的"></a>一、目的</h2><p>在代理模式(一)里面我们了解了<strong>静态代理、动态代理、CGLIB代理</strong>的基本使用。</p>
+<p>这篇主要来将<code>JDK</code>动态代理底层的原理，以及有关<code>$Proxy0、InvocationHandler</code>相关的原理。</p>
+<h2 id="二、模拟Java底层动态代理实现"><a href="#二、模拟Java底层动态代理实现" class="headerlink" title="二、模拟Java底层动态代理实现"></a>二、模拟Java底层动态代理实现</h2><h3 id="1、模拟TimeTankProxy但是封装在MyProxy中"><a href="#1、模拟TimeTankProxy但是封装在MyProxy中" class="headerlink" title="1、模拟TimeTankProxy但是封装在MyProxy中"></a>1、模拟<code>TimeTankProxy</code>但是封装在<code>MyProxy</code>中</h3><p>只是将<code>TankTimeProxy</code>封装在了Proxy内部，我们用动态编译(JDK1.6 Complier)在程序运行的时候动态生成<code>TankTimeProxy</code>类。</p>
+<p>缺点: 只能对<code>TankTimeProxy</code>进行代理</p>
+<p>下面我们初步模拟<code>JDK</code>内部动态代理，因为动态代理就是不能看到代理类，所以我们将代理类写到<code>MyProxy</code>内部，在程序运行的时候动态生成。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Movable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Tank</span> <span class="token keyword">implements</span> <span class="token class-name">Movable</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 坦克移动</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Tank Moving......"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token number">5000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 随机产生 1~5秒, 模拟坦克在移动　</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>下面看我们很重要的<code>MyProxy</code>类，它有一个静态方法<code>newProxyInstance()</code>可以用来生成代理对象:</p>
+<p>注意这里 <code>package proxy.advance.one</code>是我要动态编译生成的那个代理类<code>TankTimeProxy</code>最后生成所在的包。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyProxy</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">// 用来产生代理类</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Object <span class="token function">newProxyInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception<span class="token punctuation">{</span>
+        String rt <span class="token operator">=</span> <span class="token string">"\n\r"</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//动态代理文件的源码 : 需要动态编译代码</span>
+        String src <span class="token operator">=</span> <span class="token string">"package proxy.advance.one;"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"public class TankTimeProxy implements Movable {"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"      private Movable tank;"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"      public TankTimeProxy(Movable tank) {"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"             this.tank = tank;"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"      }"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"     @Override"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"     public void move() {"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"          long start = System.currentTimeMillis();"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"          System.out.println(\"start time : \" + start);"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"          tank.move();"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"          long end = System.currentTimeMillis();"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"          System.out.println(\"end time : \" + end);"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"          System.out.println(\"spend all time : \" + (end - start)/1000 + \"s.\");"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"      }"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                <span class="token string">"}"</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//把源码写到java文件里</span>
+        File file <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"/home/zxzxin/Java_Maven/DesignPatterns/src/main/java/proxy/advance/one/TankTimeProxy.java"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        FileWriter fw <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileWriter</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        fw<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span><span class="token punctuation">;</span>  fw<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> fw<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//下面的代理，就是动态编译</span>
+        <span class="token comment" spellcheck="true">//编译源码，生成class,注意编译环境要换成jdk才有compiler,单纯的jre没有compiler，会空指针错误</span>
+        JavaCompiler jc <span class="token operator">=</span> ToolProvider<span class="token punctuation">.</span><span class="token function">getSystemJavaCompiler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        StandardJavaFileManager fileMgr <span class="token operator">=</span> jc<span class="token punctuation">.</span><span class="token function">getStandardFileManager</span><span class="token punctuation">(</span>null<span class="token punctuation">,</span> null<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//文件管事器</span>
+        Iterable units <span class="token operator">=</span> fileMgr<span class="token punctuation">.</span><span class="token function">getJavaFileObjects</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//编译单元</span>
+        JavaCompiler<span class="token punctuation">.</span>CompilationTask t <span class="token operator">=</span> jc<span class="token punctuation">.</span><span class="token function">getTask</span><span class="token punctuation">(</span>null<span class="token punctuation">,</span> fileMgr<span class="token punctuation">,</span> null<span class="token punctuation">,</span> null<span class="token punctuation">,</span> null<span class="token punctuation">,</span> units<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//编译任务</span>
+        t<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        fileMgr<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//把类load到内存里 并　生成新对象       !!!!!注意:下面的home前面不要加 /</span>
+        URL<span class="token punctuation">[</span><span class="token punctuation">]</span> urls <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span><span class="token string">"file:/"</span> <span class="token operator">+</span> <span class="token string">"home/zxzxin/Java_Maven/DesignPatterns/src/main/java/"</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        URLClassLoader ul <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URLClassLoader</span><span class="token punctuation">(</span>urls<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Class <span class="token class-name">c</span> <span class="token operator">=</span> ul<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span><span class="token string">"proxy.advance.one.TankTimeProxy"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//生成实例return c.newInstance();   //c.newInstance()会调用无参数的Constructor，若类没有无参的Constructor时会出错</span>
+        Constructor ctr <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">getConstructor</span><span class="token punctuation">(</span>Movable<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// 可以得到带有参数的构造方法()</span>
+        <span class="token keyword">return</span> ctr<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Tank</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>测试:</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Client</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        Movable tank <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Tank</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 现在就是说删除了TankTimeProxy，还是要能实现动态代理</span>
+        Movable tankProxy <span class="token operator">=</span> <span class="token punctuation">(</span>Movable<span class="token punctuation">)</span> MyProxy<span class="token punctuation">.</span><span class="token function">newProxyInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 动态代理不需要写出代理类的名字</span>
+        tankProxy<span class="token punctuation">.</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>输出: (和我们使用JDK动态代理一样的)</p>
+<pre class=" language-java"><code class="language-java">start time <span class="token operator">:</span> <span class="token number">1551318534681</span>
+Tank Moving<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+end time <span class="token operator">:</span> <span class="token number">1551318536469</span>
+spend all time <span class="token operator">:</span> 1s<span class="token punctuation">.</span></code></pre>
+<p>我们动态生成编译的类也在当前包下:</p>
+<p><img src="http://psxfdx6gr.bkt.clouddn.com/12_proxy_01.png" alt="12_proxy_01.png"></p>
+<h3 id="2、可以对任意接口进行代理，且可以自定义代理逻辑"><a href="#2、可以对任意接口进行代理，且可以自定义代理逻辑" class="headerlink" title="2、可以对任意接口进行代理，且可以自定义代理逻辑"></a>2、可以对任意接口进行代理，且可以自定义代理逻辑</h3><p>上面虽然实现了对JDK的动态代理的模拟，但是却只能对<code>Movable</code>接口进行代理，而且代理的逻辑只能是<code>TimeProxy</code>，下面我们来改进<code>MyProxy</code>类:</p>
+<p>这里我们里面的那个字符串拼接代理类，不叫<code>TankTimeProxy</code>了，暂且叫<code>$MyProxy0</code>。</p>
+<ul>
+<li><p>首先，要实现对任意接口的任意方法代理：</p>
+<ul>
+<li>实现代理任意接口: 我们要把接口类型作为参数传给<code>MyProxy</code>的<code>newProxyInstance(Class inface)</code>；</li>
+<li>代理接口的所有方法: 用<code>inface.getMethods()</code>取出所有方法，拼接实现方法的字符串(反射)；</li>
+</ul>
+</li>
+<li><p>要实现代理的任意逻辑:</p>
+<ul>
+<li>要把代理逻辑抽离，应独立出一个策略接口: <code>MyInvocationHandler</code>接口，并接收被代理的对象及方法作为参数<code>invoke(Object o, Method m)；</code>；</li>
+<li>而且需要把本身作为参数传给<code>MyProxy</code>的静态方法<code>newProxyInstance(Class inface, MyInvocationHandler h)</code> ；</li>
+<li>而且我们具体的策略(<strong>即MyInvocationHandler的实现类</strong>)本身聚合被<strong>代理类target</strong>，以便在target的方法前后增加代理逻辑；</li>
+<li>而且其中很重要的一步: <strong>我们需要把MyInvocationHandler</strong>作为成员遍历放到<code>$MyProxy0</code>中，而且在每一个代理方法内部，要调用被代理对象的原始方法，具体就是下面两行:</li>
+</ul>
+<pre class=" language-java"><code class="language-java"><span class="token string">"  Method md = "</span> <span class="token operator">+</span> inface<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">".class.getMethod(\""</span> <span class="token operator">+</span> m<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"\");"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>   <span class="token comment" spellcheck="true">//这个接口传入了 ,注意一定要写inface.getName</span>
+<span class="token string">"  h.invoke(this, md);"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+
+比如传入Movable接口，里面有<span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法，则上面生成的代码是这样<span class="token operator">:</span>
+Method md <span class="token operator">=</span> proxy<span class="token punctuation">.</span>advance<span class="token punctuation">.</span>two<span class="token punctuation">.</span>Flyable<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"fly"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+h<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> md<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+</ul>
+<p>讲的差不多了，现在看代码实现:</p>
+<p><img src="http://psxfdx6gr.bkt.clouddn.com/12_proxy_02.png" alt="12_proxy_02.png"></p>
+<p>代码:</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * 能处理任何方法的    调用  只要给我一个Method就能对这个方法进行特殊的处理
+ * 特殊处理的方式是由子类(实现类)决定
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">MyInvocationHandler</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">invoke</span><span class="token punctuation">(</span>Object o<span class="token punctuation">,</span> Method m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>最重要的<code>MyProxy</code>类，传入了两个参数，分别是可以指定任意接口，以及指定任意逻辑。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyProxy</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Object <span class="token function">newProxyInstance</span><span class="token punctuation">(</span>Class <span class="token class-name">inface</span><span class="token punctuation">,</span> MyInvocationHandler h<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        String rt <span class="token operator">=</span> <span class="token string">"\n\r"</span><span class="token punctuation">;</span>
+        String methodStr <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+        Method<span class="token punctuation">[</span><span class="token punctuation">]</span> methods <span class="token operator">=</span> inface<span class="token punctuation">.</span><span class="token function">getMethods</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//获取接口的所有方法 , 为所有这些方法都生成代理</span>
+        <span class="token comment" spellcheck="true">/*
+        原来固定的思路 : 只能对时间代理
+        for(Method m : methods) {
+            methodStr += "@Override" + rt +
+                         "public void " + m.getName() + "() {" + rt +
+                             "   long start = System.currentTimeMillis();" + rt +
+                            "   System.out.println(\"start time : \" + start);" + rt +
+                            "   t." + m.getName() + "();" + rt +
+                            "   long end = System.currentTimeMillis();" + rt +
+                            "   System.out.println("spend all time : " + (end - start)/1000 + "s.");" + rt +
+                         "}";
+        }
+        */</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Method m <span class="token operator">:</span> methods<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            methodStr <span class="token operator">+=</span> <span class="token string">"    @Override"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                    <span class="token string">"    public void "</span> <span class="token operator">+</span> m<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"(){"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                    <span class="token string">"       try {"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                    <span class="token string">"           Method md = "</span> <span class="token operator">+</span> inface<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">".class.getMethod(\""</span> <span class="token operator">+</span> m<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"\");"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>   <span class="token comment" spellcheck="true">//这个接口传入了 ,注意一定要写inface.getName</span>
+                    <span class="token string">"           h.invoke(this, md);"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                    <span class="token string">"       }catch(Exception e) {"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                    <span class="token string">"           e.printStackTrace();"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                    <span class="token string">"       }"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                    <span class="token string">"   }"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        String src <span class="token operator">=</span>
+                <span class="token string">"package proxy.advance.two;"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                        <span class="token string">"import java.lang.reflect.Method;"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                        <span class="token string">"public class My$Proxy0 implements "</span> <span class="token operator">+</span> inface<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"{"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                        <span class="token string">"    proxy.advance.two.MyInvocationHandler h;"</span> <span class="token operator">+</span> rt <span class="token operator">+</span> <span class="token comment" spellcheck="true">//定义成员变量 MyInvocationHandler对象</span>
+                        <span class="token string">"    public My$Proxy0(MyInvocationHandler h) {"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                        <span class="token string">"        this.h = h;"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                        <span class="token string">"    }"</span> <span class="token operator">+</span> rt <span class="token operator">+</span>
+                        methodStr <span class="token operator">+</span> rt <span class="token operator">+</span>
+                        <span class="token string">"}"</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//把源码写到java文件里</span>
+        File file <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"/home/zxzxin/Java_Maven/DesignPatterns/src/main/java/proxy/advance/two/My$Proxy0.java"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        FileWriter fw <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileWriter</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        fw<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        fw<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        fw<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//下面的代理，就是动态编译</span>
+        <span class="token comment" spellcheck="true">//编译源码，生成class,注意编译环境要换成jdk才有compiler,单纯的jre没有compiler，会空指针错误</span>
+        JavaCompiler jc <span class="token operator">=</span> ToolProvider<span class="token punctuation">.</span><span class="token function">getSystemJavaCompiler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        StandardJavaFileManager fileMgr <span class="token operator">=</span> jc<span class="token punctuation">.</span><span class="token function">getStandardFileManager</span><span class="token punctuation">(</span>null<span class="token punctuation">,</span> null<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//文件管事器</span>
+        Iterable units <span class="token operator">=</span> fileMgr<span class="token punctuation">.</span><span class="token function">getJavaFileObjects</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//编译单元</span>
+        JavaCompiler<span class="token punctuation">.</span>CompilationTask t <span class="token operator">=</span> jc<span class="token punctuation">.</span><span class="token function">getTask</span><span class="token punctuation">(</span>null<span class="token punctuation">,</span> fileMgr<span class="token punctuation">,</span> null<span class="token punctuation">,</span> null<span class="token punctuation">,</span> null<span class="token punctuation">,</span> units<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//编译任务</span>
+        t<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        fileMgr<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//把类load到内存里 并　生成新对象       !!!!!注意:下面的home前面不要加 /</span>
+        URL<span class="token punctuation">[</span><span class="token punctuation">]</span> urls <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span><span class="token string">"file:/"</span> <span class="token operator">+</span> <span class="token string">"home/zxzxin/Java_Maven/DesignPatterns/src/main/java/"</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        URLClassLoader ul <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URLClassLoader</span><span class="token punctuation">(</span>urls<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Class <span class="token class-name">c</span> <span class="token operator">=</span> ul<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span><span class="token string">"proxy.advance.two.My$Proxy0"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//        System.out.println("Class c : " + c);</span>
+
+        <span class="token comment" spellcheck="true">// 这是之前的</span>
+        <span class="token comment" spellcheck="true">//  生成实例return c.newInstance();   //c.newInstance()会调用无参数的Constructor，若类没有无参的Constructor时会出错</span>
+<span class="token comment" spellcheck="true">//        Constructor ctr = c.getConstructor(Movable.class);   // 可以得到带有参数的构造方法()</span>
+<span class="token comment" spellcheck="true">//        return ctr.newInstance(new Tank());</span>
+        Constructor ctr <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">getConstructor</span><span class="token punctuation">(</span>MyInvocationHandler<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 哪个处理器实现，就创建这个类的实例对象　</span>
+        Object m <span class="token operator">=</span> ctr<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> m<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>看一个指定时间逻辑的实现类:</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyTimeInvocationHandler</span> <span class="token keyword">implements</span> <span class="token class-name">MyInvocationHandler</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> Object target<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//注意是 Object,这样可以对任意对象进行时间的代理</span>
+
+    <span class="token keyword">public</span> <span class="token function">MyTimeInvocationHandler</span><span class="token punctuation">(</span>Object target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>target <span class="token operator">=</span> target<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">invoke</span><span class="token punctuation">(</span>Object proxy<span class="token punctuation">,</span> Method m<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 在前面做一些事情: 记录开始时间</span>
+        <span class="token keyword">long</span> start <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"start time : "</span> <span class="token operator">+</span> start<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"proxy : "</span> <span class="token operator">+</span> proxy<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 打印proxy 到底是什么</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"target : "</span> <span class="token operator">+</span> target<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 打印 target 到底是什么</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            m<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 调用 target的方法</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">long</span> end <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"end time : "</span> <span class="token operator">+</span> end<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"spend all time : "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>end <span class="token operator">-</span> start<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span> <span class="token operator">+</span> <span class="token string">"s."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>测试: (这里我加了一个<code>Flyable</code>和<code>Plane</code>)，测试可以放入任意接口(这两个类在代理模式(一)中也有，代码很简单，就不贴了):</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//　可以生成实现了任何接口的代理, 只要把接口传进去就可以了</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Client</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        Movable tank <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Tank</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        MyInvocationHandler timeHandler <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyTimeInvocationHandler</span><span class="token punctuation">(</span>tank<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Movable tankProxy <span class="token operator">=</span> <span class="token punctuation">(</span>Movable<span class="token punctuation">)</span> MyProxy<span class="token punctuation">.</span><span class="token function">newProxyInstance</span><span class="token punctuation">(</span>Movable<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> timeHandler<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 传入类的.class即可</span>
+        tankProxy<span class="token punctuation">.</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"--------------------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        Flyable plane <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Plane</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        timeHandler <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyTimeInvocationHandler</span><span class="token punctuation">(</span>plane<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Flyable planeProxy <span class="token operator">=</span> <span class="token punctuation">(</span>Flyable<span class="token punctuation">)</span> MyProxy<span class="token punctuation">.</span><span class="token function">newProxyInstance</span><span class="token punctuation">(</span>Flyable<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> timeHandler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        planeProxy<span class="token punctuation">.</span><span class="token function">fly</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>输出:</p>
+<p><img src="http://psxfdx6gr.bkt.clouddn.com/12_proxy_03.png" alt="12_proxy_03.png"></p>
+<p>看我们在包下生成的<code>MyProxy0</code>类的内容:</p>
+<p><img src="http://psxfdx6gr.bkt.clouddn.com/12_proxy_04.png" alt="12_proxy_04.png"></p>
+<p>现在再看这个整体的框架联系图，应该就比较清晰了:</p>
+<p><img src="http://psxfdx6gr.bkt.clouddn.com/12_proxy_05.png" alt="12_proxy_05.png"></p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>在上面的主程序测试类中，当调用<code>tank.move()</code>的时候，就会调用<code>invoke(this, md)</code>，而这个<code>md</code>就是具体实现<code>MyInvocationHandler</code>接口的<code>MyTimeProxyInvocation</code>的方法， 也就是<code>invoke()</code>(在这个方法中我们在前后加了自己的逻辑)方法。</p>
+
+            </div>
+            <hr>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;转载请注明:
+                    </span>
+                    <a href="https://www.zhijunkang.com" class="b-link-green">BOLG_ZJK</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/06/16/12-dai-li-mo-shi-er/" class="b-link-green">代理模式(二)</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '27f3daf9b76a62ba9fb9',
+        clientSecret: 'c8fd0b2eee52bb576fbd7e991dade520bf9a3be0',
+        repo: 'zhijunkang.github.io',
+        owner: 'zhijunkang',
+        admin: "zhijunkang",
+        id: '2019-06-16T21-46-19',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/06/16/13-qiao-jie-mo-shi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="桥接模式">
+                        
+                        <span class="card-title">桥接模式</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">桥接模式一、基本概念桥接模式属于结构型模式。
+桥接模式其实只需要记住关键的一点: 解决的是不同的子类之间排列组合可以构成巨多的类的问题。
+比如:
+
+举个例子，你要画画了，画画本身是一个类，你画画要考虑画什么形状(Shape) (A)，你画画</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/设计模式/" class="post-category" target="_blank">
+                                    设计模式
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/桥接模式/" target="_blank">
+                        <span class="chip bg-color">桥接模式</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/16/11-dai-li-mo-shi-yi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="代理模式(一)">
+                        
+                        <span class="card-title">代理模式(一)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">代理模式(一)一、基本概念代理模式是对象的结构模式。
+代理模式给某一个对象提供一个代理对象，并由代理对象控制对原对象的引用(接口的引用)
+二、静态代理静态代理是指，代理类在程序运行前就已经定义好，其与目标类(被代理类)的关系在程序运行前就已</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/设计模式/" class="post-category" target="_blank">
+                                    设计模式
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/代理模式/" target="_blank">
+                        <span class="chip bg-color">代理模式</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            本站由&copy;<a href="https://blinkfox.github.io/" target="_blank">Blinkfox</a>基于
+            <a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            <a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">24k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="zhijunkang" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:zhijunkangv@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=395090459@qq.com" class="tooltipped" data-tooltip="QQ联系我: 395090459@qq.com" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=kang_zhi_jun" class="tooltipped" data-tooltip="wechat联系我: kang_zhi_jun" data-position="top" data-delay="50">
+        <i class="fa fa-wechat"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字" class="search-input" autofocus>
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>
