@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.zhijunkang.com/"/>
-  <updated>2019-06-11T15:17:19.369Z</updated>
+  <updated>2019-06-16T13:25:53.697Z</updated>
   <id>https://www.zhijunkang.com/</id>
   
   <author>
@@ -15,6 +15,140 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>装饰者模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/03-zhuang-shi-zhe-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/03-zhuang-shi-zhe-mo-shi/</id>
+    <published>2019-06-16T13:24:09.000Z</published>
+    <updated>2019-06-16T13:25:53.697Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;装饰者模式&quot;&gt;&lt;a href=&quot;#装饰者模式&quot; class=&quot;headerlink&quot; title=&quot;装饰者模式&quot;&gt;&lt;/a&gt;装饰者模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="装饰者模式" scheme="https://www.zhijunkang.com/tags/%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>观察者模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/02-guan-cha-zhe-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/02-guan-cha-zhe-mo-shi/</id>
+    <published>2019-06-16T13:20:08.000Z</published>
+    <updated>2019-06-16T13:23:55.923Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;观察者模式&quot;&gt;&lt;a href=&quot;#观察者模式&quot; class=&quot;headerlink&quot; title=&quot;观察者模式&quot;&gt;&lt;/a&gt;观察者模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="观察者模式" scheme="https://www.zhijunkang.com/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>策略模式</title>
+    <link href="https://www.zhijunkang.com/2019/06/16/01-ce-lue-mo-shi/"/>
+    <id>https://www.zhijunkang.com/2019/06/16/01-ce-lue-mo-shi/</id>
+    <published>2019-06-16T13:13:32.000Z</published>
+    <updated>2019-06-16T13:19:37.810Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;策略模式&quot;&gt;&lt;a href=&quot;#策略模式&quot; class=&quot;headerlink&quot; title=&quot;策略模式&quot;&gt;&lt;/a&gt;策略模式&lt;/h1&gt;&lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://www.zhijunkang.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="策略模式" scheme="https://www.zhijunkang.com/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaStream-汇总统计</title>
+    <link href="https://www.zhijunkang.com/2019/06/12/javastream-hui-zong-tong-ji/"/>
+    <id>https://www.zhijunkang.com/2019/06/12/javastream-hui-zong-tong-ji/</id>
+    <published>2019-06-12T06:48:14.000Z</published>
+    <updated>2019-06-16T13:07:37.267Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;汇总统计&quot;&gt;&lt;a href=&quot;#汇总统计&quot; class=&quot;headerlink&quot; title=&quot;汇总统计&quot;&gt;&lt;/a&gt;汇总统计&lt;/h2&gt;&lt;h5 id=&quot;问题：用户希望获取数值流中元素的数量，总和、最小值、最大值已经平均值。&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="Java8" scheme="https://www.zhijunkang.com/categories/Java8/"/>
+    
+    
+      <category term="Java" scheme="https://www.zhijunkang.com/tags/Java/"/>
+    
+      <category term="Stream" scheme="https://www.zhijunkang.com/tags/Stream/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaStream-获取元素数量</title>
+    <link href="https://www.zhijunkang.com/2019/06/12/javastream-huo-qu-yuan-su-shu-liang/"/>
+    <id>https://www.zhijunkang.com/2019/06/12/javastream-huo-qu-yuan-su-shu-liang/</id>
+    <published>2019-06-12T06:15:05.000Z</published>
+    <updated>2019-06-16T13:07:37.267Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;获取元素数量&quot;&gt;&lt;a href=&quot;#获取元素数量&quot; class=&quot;headerlink&quot; title=&quot;获取元素数量&quot;&gt;&lt;/a&gt;获取元素数量&lt;/h2&gt;&lt;h3 id=&quot;一、使用java-util-stream-Stream-接口定义的-count-方法&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="Java8" scheme="https://www.zhijunkang.com/categories/Java8/"/>
+    
+    
+      <category term="Java" scheme="https://www.zhijunkang.com/tags/Java/"/>
+    
+      <category term="Stream" scheme="https://www.zhijunkang.com/tags/Stream/"/>
+    
+  </entry>
   
   <entry>
     <title>Lambda表达式总结</title>
