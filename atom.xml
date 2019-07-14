@@ -59,16 +59,26 @@
   </entry>
   
   <entry>
-    <title>JVM学习总结一</title>
-    <link href="https://www.zhijunkang.com/2019/07/14/jvm-xue-xi-zong-jie-yi/"/>
-    <id>https://www.zhijunkang.com/2019/07/14/jvm-xue-xi-zong-jie-yi/</id>
+    <title>JVM学习总结（Java内存区域）</title>
+    <link href="https://www.zhijunkang.com/2019/07/14/jvm-xue-xi-zong-jie-nei-cun-jie-gou-yun-xing-shi-shu-ju-qu/"/>
+    <id>https://www.zhijunkang.com/2019/07/14/jvm-xue-xi-zong-jie-nei-cun-jie-gou-yun-xing-shi-shu-ju-qu/</id>
     <published>2019-07-14T11:32:42.000Z</published>
-    <updated>2019-07-14T11:32:42.946Z</updated>
+    <updated>2019-07-14T13:54:50.433Z</updated>
     
     <summary type="html">
     
+      
+      
+        
+        
+          &lt;h2 id=&quot;一、走进Java&quot;&gt;&lt;a href=&quot;#一、走进Java&quot; class=&quot;headerlink&quot; title=&quot;一、走进Java&quot;&gt;&lt;/a&gt;一、走进Java&lt;/h2&gt;&lt;p&gt;&lt;img
+        
+      
+    
     </summary>
     
+    
+      <category term="Java JVM" scheme="https://www.zhijunkang.com/tags/Java-JVM/"/>
     
   </entry>
   
